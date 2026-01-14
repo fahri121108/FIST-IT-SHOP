@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Fish It Owner Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;font-family:Poppins,sans-serif}
+    body{margin:0;background:#070b18;color:#fff}
+    .container{max-width:800px;margin:auto;padding:30px}
+
+    .card{background:#12182b;border:1px solid #24306a;border-radius:22px;
+      padding:22px;margin-bottom:22px;box-shadow:0 20px 50px rgba(0,0,0,.55)}
+    h2{color:#6fa8ff;margin-top:0}
+
+    input,select{
+      width:100%;margin:10px 0 16px;padding:14px;
+      border-radius:14px;background:#0b1024;
+      border:1px solid #2a3572;color:#fff
+    }
+
+    button{width:100%;padding:14px;border-radius:18px;border:none;
+      background:linear-gradient(135deg,#4da3ff,#6f7dff);
+      font-weight:700;cursor:pointer}
+
+    .product{background:#0e1536;border:1px solid #26306a;
+      border-radius:16px;padding:14px;margin-bottom:10px}
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- LOGIN OWNER -->
+  <div class="card" id="loginBox">
+    <h2>🔐 Login Owner</h2>
+    <input id="user" placeholder="Username">
+    <input id="pass" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard" style="display:none">
+
+    <div class="card">
+      <h2>📦 Tambah Produk Fish It</h2>
+      <input id="pname" placeholder="Nama Produk">
+      <input id="pprice" placeholder="Harga (Rp)">
+      <button onclick="addProduct()">Simpan Produk</button>
+    </div>
+
+    <div class="card">
+      <h2>📋 Produk Aktif</h2>
+      <div id="list"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+const OWNER_USER = "Fahz";
+const OWNER_PASS = "Fahz";
+
+let products = JSON.parse(localStorage.getItem("fishit_products") || "[]");
+
+function login(){
+  if(user.value === OWNER_USER && pass.value === OWNER_PASS){
+    loginBox.style.display="none";
+    dashboard.style.display="block";
+    render();
+  } else {
+    alert("Login salah");
+  }
+}
+
+function addProduct(){
+  if(!pname.value || !pprice.value) return alert("Lengkapi data");
+  products.push({name:pname.value, price:pprice.value});
+  localStorage.setItem("fishit_products", JSON.stringify(products));
+  pname.value=""; pprice.value="";
+  render();
+}
+
+function render(){
+  list.innerHTML = products.map(p =>
+    `<div class="product"><b>${p.name}</b><br>Rp ${p.price}</div>`
+  ).join("");
+}
+</script>
+
+</body>
+</html>
