@@ -3,30 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fish It Shop - User</title>
+<title>Fish It Roblox Shop</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;font-family:Poppins,sans-serif}
-body{margin:0;background:#070b18;color:#fff}
+*{box-sizing:border-box;font-family:Poppins,sans-serif;margin:0;padding:0}
+body{background:#070b18;color:#fff}
 header{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;background:linear-gradient(135deg,#0f1b3d,#070b18);border-bottom:1px solid #1c275a}
-.brand{display:flex;align-items:center;gap:12px}
-.brand img{width:40px}
-.brand h1{margin:0;font-size:20px;color:#4da3ff}
+header h1{color:#4da3ff;font-size:22px}
 .nav a{color:#ccc;margin-left:16px;text-decoration:none;font-size:14px}
 .nav a:hover{color:#4da3ff}
-
 .container{max-width:1000px;margin:auto;padding:24px}
 .card{background:#12182b;border:1px solid #24306a;border-radius:22px;padding:22px;margin-bottom:22px;box-shadow:0 20px 50px rgba(0,0,0,.55)}
-.card h2{color:#6fa8ff;margin-top:0}
+.card h2{color:#6fa8ff;margin-bottom:16px}
 input,textarea,select{width:100%;padding:14px;margin:10px 0 16px;border-radius:14px;background:#0b1024;border:1px solid #2a3572;color:#fff}
-.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-.product{background:#0e1536;border:1px solid #26306a;border-radius:18px;padding:16px;cursor:pointer;transition:.2s}
+button{width:100%;padding:14px;border-radius:18px;border:none;background:linear-gradient(135deg,#4da3ff,#6f7dff);font-weight:700;cursor:pointer;margin-top:6px}
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}
+.product{background:#0e1536;border:1px solid #26306a;border-radius:18px;padding:14px;cursor:pointer;transition:.2s;text-align:center}
 .product:hover{border-color:#4da3ff;transform:translateY(-3px)}
 .product.active{border-color:#4da3ff;background:#141c42}
 .pay-box{border:1px dashed #34408a;border-radius:18px;padding:18px;background:#0b1024;margin-top:12px}
-.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.pay-box img{width:100%;max-width:220px;border-radius:16px}
-.btn{width:100%;padding:14px;border-radius:18px;border:none;background:linear-gradient(135deg,#4da3ff,#6f7dff);font-weight:700;cursor:pointer}
+.pay-box img{width:100%;max-width:200px;border-radius:16px;margin-top:6px}
+.btn-full{width:100%;padding:14px;border-radius:18px;border:none;background:linear-gradient(135deg,#4da3ff,#6f7dff);font-weight:700;cursor:pointer;margin-top:12px}
 
 /* Chat pinggir */
 .chat-icon{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#4da3ff,#6f7dff);display:flex;align-items:center;justify-content:center;font-size:26px;color:#000;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.6)}
@@ -34,34 +31,51 @@ input,textarea,select{width:100%;padding:14px;margin:10px 0 16px;border-radius:1
 .chat-head{padding:12px;background:#4da3ff;color:#000;font-weight:700}
 .chat-body{height:200px;padding:12px;font-size:13px;overflow:auto}
 .chat-input{display:flex;border-top:1px solid #2a3572}
-.chat-input input{flex:1;border:none}
+.chat-input input{flex:1;border:none;padding:8px}
 .chat-input button{width:80px;border:none;background:#4da3ff;font-weight:700}
 footer{text-align:center;padding:24px;color:#666;font-size:12px}
+.role-switch{display:flex;gap:12px;margin-top:10px}
+.role-switch button{flex:1}
+.hidden{display:none}
+.order-list{max-height:250px;overflow:auto}
+.order-item{background:#0e1536;border:1px solid #26306a;border-radius:14px;padding:10px;margin-bottom:8px}
 </style>
 </head>
 <body>
 
 <header>
-<div class="brand">
-<img src="logo.png">
-<h1>FISH IT</h1>
-</div>
+<h1>FISH IT Roblox Shop</h1>
 <div class="nav">
-<a href="login.html">Masuk</a>
-<a href="login.html">Register</a>
+<span id="welcomeUser"></span>
+<a href="#" onclick="logout()">Logout</a>
 </div>
 </header>
 
 <div class="container">
+
+<!-- LOGIN / REGISTER -->
+<div id="loginSection" class="card">
+<h2>🔐 Login / Register</h2>
+<input id="username" placeholder="Username">
+<input id="password" type="password" placeholder="Password (owner only)">
+<div class="role-switch">
+<button onclick="loginUser()">👤 User</button>
+<button onclick="loginOwner()">🧑‍💻 Owner</button>
+</div>
+</div>
+
+<!-- USER DASHBOARD -->
+<div id="userDashboard" class="hidden">
 <div class="card">
 <h2>🎮 Akun Roblox</h2>
 <input id="robloxUser" placeholder="Username Roblox" readonly>
-<textarea id="note" placeholder="Catatan (opsional)"></textarea>
+<textarea id="note" placeholder="Catatan opsional"></textarea>
 </div>
 
 <div class="card">
 <h2>🛒 Produk Fish It</h2>
 <div class="products" id="productList"></div>
+<p style="margin-top:8px;font-size:14px">Harga: Rp <span id="selectedPrice">0</span></p>
 </div>
 
 <div class="card">
@@ -72,26 +86,49 @@ footer{text-align:center;padding:24px;color:#666;font-size:12px}
 </select>
 
 <div class="pay-box">
-<div class="pay-grid">
-<div>
-<b>No DANA</b>
-<p>08xxxxxxxxxx</p>
+<b>No DANA:</b><br>08xxxxxxxxxx<br><br>
+<b>QRIS:</b><br><img src="qris.png" alt="QRIS">
+<p style="font-size:11px;color:#777;margin-top:6px">*Upload bukti pembayaran setelah transfer</p>
+<input type="file" id="payProof">
 </div>
-<div>
-<b>QRIS</b><br>
-<img src="qris.png">
-</div>
+
+<button class="btn-full" onclick="placeOrder()">🚀 Pesan Sekarang</button>
 </div>
 </div>
 
-<button class="btn" onclick="placeOrder()">🚀 Pesan Sekarang</button>
+<!-- OWNER DASHBOARD -->
+<div id="ownerDashboard" class="hidden">
+<div class="card">
+<h2>📦 Tambah Produk Fish It</h2>
+<input id="pname" placeholder="Nama Produk">
+<select id="pcat">
+<option>Banner</option>
+<option>SC</option>
+<option>Batu Enchan</option>
+<option>Tumbal</option>
+<option>Uang Fist It</option>
+</select>
+<input id="pprice" placeholder="Harga (Rp)">
+<button onclick="addProduct()">➕ Simpan Produk</button>
 </div>
+
+<div class="card">
+<h2>📋 Produk Aktif</h2>
+<div id="list"></div>
+</div>
+
+<div class="card">
+<h2>📄 Order Masuk</h2>
+<div class="order-list" id="orderList"></div>
+</div>
+</div>
+
 </div>
 
 <!-- Chat -->
 <div class="chat" id="chatBox">
 <div class="chat-head">💬 Live Chat</div>
-<div class="chat-body" id="chatBody"><b>Owner:</b> Halo 👋</div>
+<div class="chat-body" id="chatBody"></div>
 <div class="chat-input">
 <input id="chatMsg" placeholder="Ketik pesan...">
 <button onclick="sendMsg()">Kirim</button>
@@ -99,47 +136,137 @@ footer{text-align:center;padding:24px;color:#666;font-size:12px}
 </div>
 
 <div class="chat-icon" onclick="toggleChat()">💬</div>
+
 <footer>© 2026 Fish It Roblox Shop</footer>
 
 <script>
-// Redirect kalau belum login
-if(localStorage.getItem('fishit_role')!=='user') window.location.href='login.html';
+// ===== LOGIN / ROLE =====
+let products = JSON.parse(localStorage.getItem("fishit_products")||"[]");
+let orders = JSON.parse(localStorage.getItem("fishit_orders")||"[]");
+let chat = JSON.parse(localStorage.getItem("fishit_chat")||"[]");
 
-// Username Roblox
-document.getElementById('robloxUser').value = localStorage.getItem('fishit_user') || '';
+function loginUser(){
+  const u = document.getElementById('username').value;
+  if(!u) return alert('Masukkan username');
+  localStorage.setItem('fishit_role','user');
+  localStorage.setItem('fishit_user',u);
+  showDashboard();
+}
 
-// Produk
-let products = JSON.parse(localStorage.getItem('fishit_products')||'[]');
-const productList = document.getElementById('productList');
+function loginOwner(){
+  const u = document.getElementById('username').value;
+  const p = document.getElementById('password').value;
+  if(u==="Fahz" && p==="Fahz"){
+    localStorage.setItem('fishit_role','owner');
+    showDashboard();
+  } else alert("Login owner salah");
+}
+
+function logout(){
+  localStorage.removeItem('fishit_role');
+  localStorage.removeItem('fishit_user');
+  location.reload();
+}
+
+// ===== DASHBOARD =====
+function showDashboard(){
+  const role = localStorage.getItem('fishit_role');
+  document.getElementById('loginSection').classList.add('hidden');
+  if(role==='user'){
+    document.getElementById('userDashboard').classList.remove('hidden');
+    document.getElementById('robloxUser').value = localStorage.getItem('fishit_user')||'';
+    document.getElementById('welcomeUser').innerText = 'Selamat datang '+localStorage.getItem('fishit_user');
+  }
+  if(role==='owner'){
+    document.getElementById('ownerDashboard').classList.remove('hidden');
+    document.getElementById('welcomeUser').innerText = 'Owner: Fahz';
+    renderProductsOwner();
+    renderOrders();
+    renderChat();
+  }
+}
+
+// ===== PRODUK =====
+function addProduct(){
+  const name=document.getElementById('pname').value;
+  const price=document.getElementById('pprice').value;
+  const cat=document.getElementById('pcat').value;
+  if(!name || !price) return alert("Lengkapi data");
+  products.push({name,price,cat});
+  localStorage.setItem("fishit_products",JSON.stringify(products));
+  document.getElementById('pname').value=''; document.getElementById('pprice').value='';
+  renderProductsOwner();
+}
+
+function renderProductsOwner(){
+  document.getElementById('list').innerHTML = products.map(p=>`<div class="product"><b>${p.name}</b><br>${p.cat} - Rp ${p.price}</div>`).join('');
+  renderProductsUser();
+}
+
+function renderProductsUser(){
+  const productList=document.getElementById('productList');
+  if(!productList) return;
+  productList.innerHTML = products.map((p,i)=>`
+    <div class="product" onclick="selectProduct(${i})">
+      <b>${p.name}</b><br>
+      ${p.cat} - Rp ${p.price}
+    </div>`).join('');
+}
+
 let selectedIndex = null;
-
-function renderProducts(){
-productList.innerHTML = products.map((p,i)=>`<div class="product" onclick="selectProduct(${i})"><b>${p.name}</b><br>Rp ${p.price}</div>`).join('');
-}
 function selectProduct(i){
-selectedIndex=i;
-Array.from(productList.children).forEach((el,j)=>el.classList.toggle('active',i===j));
+  selectedIndex = i;
+  const prod = products[i];
+  Array.from(document.getElementById('productList').children).forEach((el,j)=>el.classList.toggle('active',i===j));
+  document.getElementById('selectedPrice').innerText = prod.price;
 }
-renderProducts();
 
+// ===== ORDER =====
 function placeOrder(){
-if(selectedIndex===null) return alert('Pilih produk dulu!');
-const user = localStorage.getItem('fishit_user');
-const prod = products[selectedIndex];
-alert(`Order sukses!\nUser: ${user}\nProduk: ${prod.name}\nManual bayar via DANA / QRIS`);
+  if(selectedIndex===null) return alert('Pilih produk dulu!');
+  const user = localStorage.getItem('fishit_user');
+  const prod = products[selectedIndex];
+  const method = document.getElementById('payMethod').value;
+  const note = document.getElementById('note').value;
+  const fileInput = document.getElementById('payProof');
+  let fileName = fileInput.files[0] ? fileInput.files[0].name : 'tidak ada';
+  let order = {user,prod,method,note,fileName};
+  orders.push(order);
+  localStorage.setItem("fishit_orders",JSON.stringify(orders));
+  alert("Order sukses! Owner akan cek via WhatsApp");
+  // WA Owner
+  let msg = `*NEW ORDER*\nUser: ${user}\nProduk: ${prod.name} (${prod.cat})\nHarga: Rp ${prod.price}\nMetode: ${method}\nCatatan: ${note}\nBukti: ${fileName}`;
+  window.open(`https://wa.me/08123456789?text=${encodeURIComponent(msg)}`,'_blank');
+  renderOrders();
 }
 
-// Chat
+// ===== OWNER ORDER LIST =====
+function renderOrders(){
+  const list=document.getElementById('orderList');
+  list.innerHTML=orders.map(o=>`<div class="order-item"><b>${o.user}</b><br>${o.prod.name} (${o.prod.cat}) - Rp ${o.prod.price}<br>Metode: ${o.method}<br>Catatan: ${o.note}<br>Bukti: ${o.fileName}</div>`).join('');
+}
+
+// ===== CHAT =====
 function toggleChat(){const c=document.getElementById('chatBox');c.style.display=c.style.display==='none'?'block':'none';}
 function sendMsg(){
-const msg = document.getElementById('chatMsg').value;
-if(!msg) return;
-const chatBody = document.getElementById('chatBody');
-const user = localStorage.getItem('fishit_user');
-chatBody.innerHTML += `<div><b>${user}:</b> ${msg}</div>`;
-document.getElementById('chatMsg').value='';
-chatBody.scrollTop = chatBody.scrollHeight;
+  const msg=document.getElementById('chatMsg').value;
+  if(!msg) return;
+  const role = localStorage.getItem('fishit_role');
+  const user = role==='user'?localStorage.getItem('fishit_user'):'Owner';
+  chat.push({user,msg});
+  localStorage.setItem("fishit_chat",JSON.stringify(chat));
+  renderChat();
+  document.getElementById('chatMsg').value='';
 }
+function renderChat(){
+  const body=document.getElementById('chatBody');
+  body.innerHTML=chat.map(c=>`<div><b>${c.user}:</b> ${c.msg}</div>`).join('');
+}
+
+// ===== INIT =====
+showDashboard();
+renderProductsOwner();
 </script>
+
 </body>
 </html>
