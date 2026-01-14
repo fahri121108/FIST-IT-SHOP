@@ -24,8 +24,6 @@ button{width:100%;padding:14px;border-radius:18px;border:none;background:linear-
 .pay-box{border:1px dashed #34408a;border-radius:18px;padding:18px;background:#0b1024;margin-top:12px}
 .pay-box img{width:100%;max-width:200px;border-radius:16px;margin-top:6px}
 .btn-full{width:100%;padding:14px;border-radius:18px;border:none;background:linear-gradient(135deg,#4da3ff,#6f7dff);font-weight:700;cursor:pointer;margin-top:12px}
-
-/* Chat pinggir */
 .chat-icon{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#4da3ff,#6f7dff);display:flex;align-items:center;justify-content:center;font-size:26px;color:#000;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.6)}
 .chat{position:fixed;bottom:90px;right:24px;width:320px;background:#12182b;border:1px solid #2a3572;border-radius:20px;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.6);display:none}
 .chat-head{padding:12px;background:#4da3ff;color:#000;font-weight:700}
@@ -75,7 +73,11 @@ footer{text-align:center;padding:24px;color:#666;font-size:12px}
 <div class="card">
 <h2>🛒 Produk Fish It</h2>
 <div class="products" id="productList"></div>
-<p style="margin-top:8px;font-size:14px">Harga: Rp <span id="selectedPrice">0</span></p>
+<p style="margin-top:8px;font-size:14px">
+Harga Satuan: Rp <span id="selectedPrice">0</span><br>
+Jumlah Beli: <input type="number" id="qty" value="1" min="1" style="width:60px; margin-top:4px;"><br>
+Total Harga: Rp <span id="totalPrice">0</span>
+</p>
 </div>
 
 <div class="card">
@@ -93,7 +95,6 @@ footer{text-align:center;padding:24px;color:#666;font-size:12px}
 </div>
 
 <button class="btn-full" onclick="placeOrder()">🚀 Pesan Sekarang</button>
-</div>
 </div>
 
 <!-- OWNER DASHBOARD -->
@@ -140,11 +141,12 @@ footer{text-align:center;padding:24px;color:#666;font-size:12px}
 <footer>© 2026 Fish It Roblox Shop</footer>
 
 <script>
-// ===== LOGIN / ROLE =====
+// ===== INIT DATA =====
 let products = JSON.parse(localStorage.getItem("fishit_products")||"[]");
 let orders = JSON.parse(localStorage.getItem("fishit_orders")||"[]");
 let chat = JSON.parse(localStorage.getItem("fishit_chat")||"[]");
 
+// ===== LOGIN / ROLE =====
 function loginUser(){
   const u = document.getElementById('username').value;
   if(!u) return alert('Masukkan username');
@@ -213,37 +215,52 @@ function renderProductsUser(){
     </div>`).join('');
 }
 
+// ===== USER SELECT PRODUK =====
 let selectedIndex = null;
 function selectProduct(i){
   selectedIndex = i;
   const prod = products[i];
   Array.from(document.getElementById('productList').children).forEach((el,j)=>el.classList.toggle('active',i===j));
   document.getElementById('selectedPrice').innerText = prod.price;
+  updateTotal();
 }
 
-// ===== ORDER =====
+// ===== QTY & TOTAL =====
+document.getElementById('qty').addEventListener('input', updateTotal);
+function updateTotal(){
+  if(selectedIndex===null) return;
+  const prod = products[selectedIndex];
+  const qty = parseInt(document.getElementById('qty').value)||1;
+  document.getElementById('totalPrice').innerText = prod.price * qty;
+}
+
+// ===== PLACE ORDER =====
 function placeOrder(){
   if(selectedIndex===null) return alert('Pilih produk dulu!');
   const user = localStorage.getItem('fishit_user');
   const prod = products[selectedIndex];
+  const qty = parseInt(document.getElementById('qty').value)||1;
+  const total = prod.price * qty;
   const method = document.getElementById('payMethod').value;
   const note = document.getElementById('note').value;
   const fileInput = document.getElementById('payProof');
   let fileName = fileInput.files[0] ? fileInput.files[0].name : 'tidak ada';
-  let order = {user,prod,method,note,fileName};
+
+  let order = {user,prod,qty,total,method,note,fileName};
   orders.push(order);
   localStorage.setItem("fishit_orders",JSON.stringify(orders));
   alert("Order sukses! Owner akan cek via WhatsApp");
-  // WA Owner
-  let msg = `*NEW ORDER*\nUser: ${user}\nProduk: ${prod.name} (${prod.cat})\nHarga: Rp ${prod.price}\nMetode: ${method}\nCatatan: ${note}\nBukti: ${fileName}`;
+
+  let msg = `*NEW ORDER*\nUser: ${user}\nProduk: ${prod.name} (${prod.cat})\nHarga Satuan: Rp ${prod.price}\nJumlah: ${qty}\nTotal: Rp ${total}\nMetode: ${method}\nCatatan: ${note}\nBukti: ${fileName}`;
   window.open(`https://wa.me/08123456789?text=${encodeURIComponent(msg)}`,'_blank');
+
   renderOrders();
 }
 
 // ===== OWNER ORDER LIST =====
 function renderOrders(){
   const list=document.getElementById('orderList');
-  list.innerHTML=orders.map(o=>`<div class="order-item"><b>${o.user}</b><br>${o.prod.name} (${o.prod.cat}) - Rp ${o.prod.price}<br>Metode: ${o.method}<br>Catatan: ${o.note}<br>Bukti: ${o.fileName}</div>`).join('');
+  list.innerHTML=orders.map(o=>`<div class="order-item"><b>${o.user}</b><br>${o.prod.name} (${o.prod.cat}) - Rp ${o.prod.price}<br>Jumlah: ${o.qty} | Total: Rp ${o.total}<br>Metode: ${o.method}<br>Catatan: ${o.note}<br>Bukti: ${o.fileName}</div>`).join('');
 }
 
 // ===== CHAT =====
@@ -266,6 +283,9 @@ function renderChat(){
 // ===== INIT =====
 showDashboard();
 renderProductsOwner();
+renderOrders();
+renderChat();
+updateTotal();
 </script>
 
 </body>
