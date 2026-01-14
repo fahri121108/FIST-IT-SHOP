@@ -1,121 +1,136 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Fish It Roblox Shop</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    *{box-sizing:border-box;font-family:Poppins,sans-serif}
-    body{margin:0;background:#070b18;color:#fff}
-    header{padding:22px;background:linear-gradient(135deg,#0f1b3d,#070b18);border-bottom:1px solid #1c275a}
-    .brand{display:flex;align-items:center;gap:14px}
-    .brand img{width:44px}
-    .brand h1{margin:0;font-size:22px;color:#4da3ff}
-    .brand span{font-size:12px;color:#aaa}
-
-    .container{max-width:1000px;margin:auto;padding:24px}
-    .card{background:#12182b;border:1px solid #24306a;border-radius:22px;padding:22px;margin-bottom:22px;box-shadow:0 20px 50px rgba(0,0,0,.55)}
-    .card h2{margin-top:0;color:#6fa8ff}
-
-    input,textarea,select{
-      width:100%;margin:10px 0 16px;padding:14px;
-      border-radius:14px;background:#0b1024;
-      border:1px solid #2a3572;color:#fff
-    }
-
-    .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-    .product{background:#0e1536;border:1px solid #26306a;border-radius:18px;padding:16px}
-    .product b{display:block}
-
-    .pay-box{border:1px dashed #34408a;border-radius:18px;padding:18px;background:#0b1024}
-    .pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-    .pay-box img{width:100%;max-width:220px;border-radius:16px}
-
-    .btn{width:100%;padding:14px;border-radius:18px;border:none;
-      background:linear-gradient(135deg,#4da3ff,#6f7dff);
-      font-weight:700;cursor:pointer}
-
-    /* CHAT */
-    .chat{position:fixed;bottom:22px;right:22px;width:320px;
-      background:#12182b;border:1px solid #2a3572;border-radius:20px;
-      box-shadow:0 20px 40px rgba(0,0,0,.6)}
-    .chat-head{padding:12px;background:linear-gradient(135deg,#4da3ff,#6f7dff);color:#000;font-weight:700}
-    .chat-body{height:200px;overflow:auto;padding:12px;font-size:13px}
-    .chat-input{display:flex;border-top:1px solid #2a3572}
-    .chat-input input{flex:1;border:none}
-    .chat-input button{width:80px;border:none;background:#4da3ff;font-weight:700}
-
-    footer{text-align:center;padding:24px;color:#666;font-size:12px}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fish It Shop</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;font-family:Poppins,sans-serif}
+body{margin:0;background:#070b18;color:#fff}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;background:linear-gradient(135deg,#0f1b3d,#070b18);border-bottom:1px solid #1c275a}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:40px}
+.brand h1{margin:0;font-size:20px;color:#4da3ff}
+.container{max-width:1000px;margin:auto;padding:24px}
+.card{background:#12182b;border:1px solid #24306a;border-radius:22px;padding:22px;margin-bottom:22px;box-shadow:0 20px 50px rgba(0,0,0,.55)}
+.card h2{color:#6fa8ff;margin-top:0}
+input,textarea,select{width:100%;padding:14px;margin:10px 0 16px;border-radius:14px;background:#0b1024;border:1px solid #2a3572;color:#fff}
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.product{background:#0e1536;border:1px solid #26306a;border-radius:18px;padding:16px;cursor:pointer;transition:.2s}
+.product:hover{border-color:#4da3ff;transform:translateY(-3px)}
+.product.active{border-color:#4da3ff;background:#141c42}
+.pay-box{border:1px dashed #34408a;border-radius:18px;padding:18px;background:#0b1024;margin-top:12px}
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.pay-box img{width:100%;max-width:220px;border-radius:16px}
+.btn{width:100%;padding:14px;border-radius:18px;border:none;background:linear-gradient(135deg,#4da3ff,#6f7dff);font-weight:700;cursor:pointer}
+.chat-icon{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#4da3ff,#6f7dff);display:flex;align-items:center;justify-content:center;font-size:26px;color:#000;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+.chat{position:fixed;bottom:90px;right:24px;width:320px;background:#12182b;border:1px solid #2a3572;border-radius:20px;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.6);display:none}
+.chat-head{padding:12px;background:#4da3ff;color:#000;font-weight:700}
+.chat-body{height:200px;padding:12px;font-size:13px;overflow:auto}
+.chat-input{display:flex;border-top:1px solid #2a3572}
+.chat-input input{flex:1;border:none}
+.chat-input button{width:80px;border:none;background:#4da3ff;font-weight:700}
+footer{text-align:center;padding:24px;color:#666;font-size:12px}
+</style>
 </head>
 <body>
 
 <header>
-  <div class="brand">
-    <img src="logo.png">
-    <div>
-      <h1>FISH IT SHOP</h1>
-      <span>Roblox • Fish It • Auto Order</span>
-    </div>
-  </div>
+<div class="brand">
+<img src="logo.png">
+<h1>FISH IT</h1>
+</div>
 </header>
 
 <div class="container">
 
-  <div class="card">
-    <h2>🎮 Data Akun Roblox</h2>
-    <input placeholder="Username Roblox">
-    <textarea placeholder="Catatan untuk owner (opsional)"></textarea>
-  </div>
-
-  <div class="card">
-    <h2>🛒 Produk Fish It</h2>
-    <div class="products">
-      <div class="product">
-        <b>Produk Fish It</b>
-        <small style="color:#aaa">diisi dari admin</small>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>💳 Pembayaran</h2>
-    <select>
-      <option>DANA</option>
-      <option>QRIS</option>
-    </select>
-
-    <div class="pay-box">
-      <div class="pay-grid">
-        <div>
-          <b>No DANA</b>
-          <p style="font-size:18px">08xxxxxxxxxx</p>
-        </div>
-        <div>
-          <b>QRIS</b><br>
-          <img src="qris.png">
-        </div>
-      </div>
-    </div>
-
-    <button class="btn">🚀 Pesan Sekarang</button>
-  </div>
-
+<div class="card">
+<h2>🎮 Akun Roblox</h2>
+<input id="robloxUser" placeholder="Username Roblox" readonly>
+<textarea id="note" placeholder="Catatan (opsional)"></textarea>
 </div>
 
-<div class="chat">
-  <div class="chat-head">💬 Live Chat Owner</div>
-  <div class="chat-body">
-    <b>Owner:</b> Halo, ada yang bisa dibantu?
-  </div>
-  <div class="chat-input">
-    <input placeholder="Ketik pesan...">
-    <button>Kirim</button>
-  </div>
+<div class="card">
+<h2>🛒 Produk Fish It</h2>
+<div class="products" id="productList"></div>
 </div>
 
+<div class="card">
+<h2>💳 Pembayaran</h2>
+<select id="payMethod">
+<option>DANA</option>
+<option>QRIS</option>
+</select>
+
+<div class="pay-box">
+<div class="pay-grid">
+<div>
+<b>No DANA</b>
+<p>08xxxxxxxxxx</p>
+</div>
+<div>
+<b>QRIS</b><br>
+<img src="qris.png">
+</div>
+</div>
+</div>
+
+<button class="btn" onclick="placeOrder()">🚀 Pesan Sekarang</button>
+</div>
+</div>
+
+<!-- CHAT -->
+<div class="chat" id="chatBox">
+<div class="chat-head">💬 Live Chat</div>
+<div class="chat-body" id="chatBody"><b>Owner:</b> Halo 👋</div>
+<div class="chat-input">
+<input id="chatMsg" placeholder="Ketik pesan...">
+<button onclick="sendMsg()">Kirim</button>
+</div>
+</div>
+
+<div class="chat-icon" onclick="toggleChat()">💬</div>
 <footer>© 2026 Fish It Roblox Shop</footer>
 
+<script>
+// login user dari localStorage
+document.getElementById('robloxUser').value = localStorage.getItem('fishit_user') || '';
+
+// Produk dari localStorage
+let products = JSON.parse(localStorage.getItem('fishit_products')||'[]');
+const productList = document.getElementById('productList');
+let selectedIndex = null;
+
+function renderProducts(){
+productList.innerHTML = products.map((p,i)=>`<div class="product" onclick="selectProduct(${i})"><b>${p.name}</b><br>Rp ${p.price}</div>`).join('');
+}
+function selectProduct(i){
+selectedIndex = i;
+Array.from(productList.children).forEach((el,j)=>el.classList.toggle('active',i===j));
+}
+renderProducts();
+
+function placeOrder(){
+if(selectedIndex===null)return alert('Pilih produk dulu');
+const user = localStorage.getItem('fishit_user');
+const prod = products[selectedIndex];
+alert(`Order sukses!\nUser: ${user}\nProduk: ${prod.name}\nManual bayar via DANA / QRIS`);
+}
+
+function toggleChat(){
+const c=document.getElementById('chatBox');
+c.style.display=c.style.display==='none'?'block':'none';
+}
+function sendMsg(){
+const msg = document.getElementById('chatMsg').value;
+if(!msg) return;
+const chatBody = document.getElementById('chatBody');
+const user = localStorage.getItem('fishit_user');
+chatBody.innerHTML += `<div><b>${user}:</b> ${msg}</div>`;
+document.getElementById('chatMsg').value='';
+chatBody.scrollTop = chatBody.scrollHeight;
+}
+</script>
 </body>
-  </html>
+</html>
